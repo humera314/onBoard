@@ -83,7 +83,6 @@ const router = useRouter()
       </h1>
 
 
-
       {/* Stat Cards */}
       <div className="relative overflow-x-auto scrollbar-hide mb-10">
         <div className="flex lg:flex-wrap items-center gap-[44px] min-w-max px-2">
@@ -132,10 +131,10 @@ const router = useRouter()
                 className="w-[84px] h-[36px] flex items-center justify-center gap-[6px] rounded-[50px] bg-[#1B1B1B] text-[#F9FAFB] text-sm"
                 onClick={() => {
                   setCollapsed((prev) => !prev)
-                  router.push(route) // navigate to corresponding page
+                  router.push(route) 
                 }}
               >
-                {collapsed ? 'Expand' : 'Collapse'}
+                Expand
                 <Image src={collapseIcon} alt="expand" />
               </button>
             </div>

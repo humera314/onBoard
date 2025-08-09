@@ -53,5 +53,9 @@ Member Name, Username, ID Verification, Portfolio Verification, No. Of Portfolio
 Routes /req-pending and /req-complete exist  on  http://localhost:3000/req-pending
 http://localhost:3000/req-complete
 
+use hardcore value for Performance Summary
+http://localhost:3000/performance
+
+
 Static datasets are currently used for charts; they can be integrated with real data if available.
 
