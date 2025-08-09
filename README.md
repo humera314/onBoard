@@ -18,7 +18,7 @@ API will be at: http://localhost:5000
 npm install
 npm run dev
 App will start at: http://localhost:3000
-you can see http://localhost:3000/performance-summary
+you can see http://localhost:3000/overview
 
 
 
