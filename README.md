@@ -15,6 +15,7 @@ API will be at: http://localhost:5000
 
 -Frontend
 
+at root directory
 npm install
 npm run dev
 App will start at: http://localhost:3000
