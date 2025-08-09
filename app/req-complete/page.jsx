@@ -5,8 +5,13 @@ import Image from 'next/image'
 import axios from 'axios'
 import collapseIcon from '/public/collapse.svg'
 import arrowIcon from '/public/arrow.svg'
+import { useRouter } from 'next/navigation'
+
+
 
 export default function AdminTools() {
+  const router = useRouter()
+
   const [data, setData] = useState([])
   const [collapsed, setCollapsed] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
@@ -61,7 +66,8 @@ export default function AdminTools() {
 
   return (
     <div className="min-h-screen bg-[#F0F9FF] flex justify-center items-start py-[87px] px-[79px] font-[Inter]">
-      <div className="w-[925px] border border-black rounded-[12px] px-[60px] py-[30px] overflow-hidden text-sm bg-[#FFF]">
+      <div className="w-[925px] border rounded-[15px]
+       border-[#FAFAFA] px-[60px] py-[30px] overflow-hidden text-sm bg-[#FFF]">
 
         <div className="flex justify-between items-center mb-4">
           <div>
@@ -69,8 +75,9 @@ export default function AdminTools() {
             <p className="text-[24px] text-[#000] font-bold">{complete?.length ?? 0}</p>
           </div>
           <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="w-[89px] h-[36px] flex items-center justify-center gap-[12px] rounded-full bg-[#1B1B1B] text-[#F9FAFB] text-[12px]"
+            onClick={() => router.push('http://localhost:3000/overview')}
+            className="w-[89px] h-[36px] flex items-center justify-center gap-[12px] rounded-full bg-[#1B1B1B] 
+            text-[#F9FAFB] text-[12px]"
           >
             {collapsed ? 'Expand' : 'Collapse'}
             <Image src={collapseIcon} alt="arrow" width={24} height={24} />
@@ -120,14 +127,6 @@ export default function AdminTools() {
 
             {/* Pagination Bottom Right */}
             <div className="flex justify-end mt-6 gap-[8px]">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="text-[#0573E9] text-[15px] bg-[#FFF] border-[1px] border-[#FFF] px-2 disabled:text-gray-400"
-              >
-                Prev
-              </button>
-
               {getPaginationRange().map((page, i) =>
                 page === '...' ? (
                   <span key={i} className="text-[#0573E9] text-[15px] px-2">...</span>
@@ -143,14 +142,6 @@ export default function AdminTools() {
                   </button>
                 )
               )}
-
-              <button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className="text-[#0573E9] text-[15px] px-2 bg-[#FFF] border-[1px] border-[#FFF] disabled:text-gray-400"
-              >
-                Next
-              </button>
             </div>
           </>
         )}

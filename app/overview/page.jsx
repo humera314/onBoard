@@ -8,6 +8,7 @@ import filterIcon from '/public/Filter.svg'
 import greenDot from '/public/green.svg'
 import redDot from '/public/red.svg'
 import collapseIcon from '/public/collapse.svg'
+import { useRouter } from 'next/navigation'
 
 import {
   XAxis,
@@ -71,7 +72,8 @@ const completed = data.filter(
     user['ID Verification'] === 'Verified' &&
     user['Portfolio Verification'] === 'Verified'
 )
-
+ 
+const router = useRouter()
 
   return (
     
@@ -112,49 +114,49 @@ const completed = data.filter(
 
     <div className="flex flex-wrap gap-[40px] mb-10">
       {[
-        ['Requests Pending', pending, pendingCollapsed, setPendingCollapsed],
-        ['Requests Completed', completed, completedCollapsed, setCompletedCollapsed]
-      ].map(([label, list, collapsed, setCollapsed], i) => (
-     
+        ['Requests Pending', pending, pendingCollapsed, setPendingCollapsed, 'http://localhost:3000/req-pending'],
+        ['Requests Completed', completed, completedCollapsed, setCompletedCollapsed, 'http://localhost:3000/req-complete']
+      ].map(([label, list, collapsed, setCollapsed, route], i) => (
         <div
           key={i}
-          className="w-[440px] h-[260px] bg-[#FFF] rounded-[15px]  border-[#DFEAF2] px-[20px] py-[10px] shadow-sm"
+          className="w-[440px] h-[260px] bg-[#FFF] rounded-[15px] border-[#DFEAF2] px-[20px] py-[10px] shadow-sm"
         >
-          <div className="flex justify-between items-center mb-4 ">
+          <div className="flex justify-between items-center mb-4">
             <div>
               <p className="text-[14px] text-[#000] font-[Inter]">{label}</p>
               <p className="text-[24px] font-bold text-[#000] font-[Inter]">{list.length}</p>
             </div>
-            <div className=' flex justify-between items-center mb-4'> 
-            <button
-              className="w-[84px] h-[36px] flex items-center justify-center gap-[6px] rounded-[50px] bg-[#1B1B1B] text-[#F9FAFB] text-sm"
-              onClick={() => setCollapsed((prev) => !prev)}
-            >
-              {collapsed ? 'Expand' : 'Colloaspe'}
-              <Image src={collapseIcon} alt="expand" />
-            </button>
-            
+
+            <div className="flex justify-between items-center mb-4">
+              <button
+                className="w-[84px] h-[36px] flex items-center justify-center gap-[6px] rounded-[50px] bg-[#1B1B1B] text-[#F9FAFB] text-sm"
+                onClick={() => {
+                  setCollapsed((prev) => !prev)
+                  router.push(route) // navigate to corresponding page
+                }}
+              >
+                {collapsed ? 'Expand' : 'Collapse'}
+                <Image src={collapseIcon} alt="expand" />
+              </button>
             </div>
           </div>
 
           {!collapsed && (
             <div className="overflow-y-auto max-h-[160px]">
-      <table className="w-full text-sm ">
-        <tbody>
-          {list.map((user, idx) => (
-            <tr key={idx} >
-              <td className="text-[#000]  border-[1px] border-[#DBDBDB]
-                flex items-center  gap-2">
-                {user['Member Name']}
-              </td>
-              <td className="text-[#000] border-[1px] border-[#DBDBDB]">{user['Username']}</td>
-              <td className="text-[#000] border-[1px] border-[#DBDBDB]">{user['No. Of Portfolios']}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
+              <table className="w-full text-sm">
+                <tbody>
+                  {list.map((user, idx) => (
+                    <tr key={idx}>
+                      <td className="text-[#000] border-[1px] border-[#DBDBDB] flex items-center gap-2">
+                        {user['Member Name']}
+                      </td>
+                      <td className="text-[#000] border-[1px] border-[#DBDBDB]">{user['Username']}</td>
+                      <td className="text-[#000] border-[1px] border-[#DBDBDB]">{user['No. Of Portfolios']}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       ))}
@@ -179,49 +181,53 @@ const completed = data.filter(
       </div>
 
       {/* Performance Summary */}
-      <div className='h-[304px]  py-[60px] w-[1000px]'>
-      <div className="bg-[#FFF] rounded-[20px] border border-[#DFEAF2]  px-[40px] py-[40px] shrink-0 p-6  mb-10 font-roboto">
-        <div className="flex justify-between gap-[22px]  py-[12px] px-[12px]  items-center mb-4">
+     <div className="w-full max-w-[1000px] h-auto py-[30px] sm:py-[60px]">
+      <div className="bg-[#FFF] rounded-[20px] border border-[#DFEAF2] px-4 sm:px-[40px] py-4 sm:py-[40px] shrink-0 p-6 mb-10 font-roboto">
+        <div className="flex justify-between gap-4 sm:gap-[22px] py-[12px] px-[12px] items-center mb-4">
           <p className="text-sm text-black font-medium">Performance Summary</p>
           <div className="flex gap-2">
-            <button className="w-[84px] h-[36px] flex items-center justify-center gap-[6px] py-[12px] px-[12px]
-            rounded-[50px] bg-[#1B1B1B] text-[#F9FAFB] text-center align-middle text-sm">
+            <button
+            onClick={() => router.push('http://localhost:3000/performance')}
+             className="w-[84px] h-[36px] flex items-center justify-center gap-[6px] py-[12px] px-[12px]
+                rounded-[50px] bg-[#1B1B1B] text-[#F9FAFB] text-center align-middle text-sm">
               Expand
               <Image src={arrowIcon} alt="expand" />
             </button>
-            <button className="w-[38px] h-[36px]  flex items-center justify-center rounded-full bg-[#1B1B1B] text-xl">
+            <button className="w-[38px] h-[36px] flex items-center justify-center rounded-full bg-[#1B1B1B] text-xl">
               <Image src={filterIcon} alt="expand" />
             </button>
           </div>
         </div>
-        <table className="w-full text-sm table-auto">
-          <thead>
-            <tr className="bg-[#F8F9FA] border-b border-[#EFF2F7] text-[#495057] font-medium text-[14px]">
-              <th className="w-[302px] px-3 py-2">Title</th>
-              <th className="w-[302px] px-3 py-2">Status</th>
-              <th className="w-[302px] px-3 py-2">Conversions Rate</th>
-              <th className="w-[302px] px-3 py-2">Clicks/Last 24 Hours</th>
-            </tr>
 
-         
-          </thead>
-          <tbody>
-            {[
-              ['Buy 1 Get 1 Free', 'Expires 3 days', '22%', '1,240'],
-              ['30% off Selected Items', 'Expires 1 day', '19%', '1,090'],
-              ['Black Friday Sale', 'Expired 1 week', '25%', '--']
-            ].map(([title, status, rate, clicks], i) => (
-              <tr key={i} className="even:bg-[#FFF] odd:bg-[#FFF]">
-                <td className="w-[876px] h-[50px] text-[#666666] text-center align-middle">{title}</td>
-                <td className="w-[876px] h-[50px] text-[#666666] text-center align-middle">{status}</td>
-                <td className="w-[876px] h-[50px] text-[#666666] text-center align-middle">{rate}</td>
-                <td className="w-[876px] h-[50px] text-[#666666] text-center align-middle">{clicks}</td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm table-auto">
+            <thead>
+              <tr className="bg-[#F8F9FA] border-b border-[#EFF2F7] text-[#495057] font-medium text-[14px]">
+                <th className="min-w-[200px] px-3 py-2">Title</th>
+                <th className="min-w-[200px] px-3 py-2">Status</th>
+                <th className="min-w-[200px] px-3 py-2">Conversions Rate</th>
+                <th className="min-w-[200px] px-3 py-2">Clicks/Last 24 Hours</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {[
+                ['Buy 1 Get 1 Free', 'Expires 3 days', '22%', '1,240'],
+                ['30% off Selected Items', 'Expires 1 day', '19%', '1,090'],
+                ['Black Friday Sale', 'Expired 1 week', '25%', '--']
+              ].map(([title, status, rate, clicks], i) => (
+                <tr key={i} className="even:bg-[#FFF] odd:bg-[#FFF]">
+                  <td className="min-w-[200px] h-[50px] text-[#666666] text-center align-middle">{title}</td>
+                  <td className="min-w-[200px] h-[50px] text-[#666666] text-center align-middle">{status}</td>
+                  <td className="min-w-[200px] h-[50px] text-[#666666] text-center align-middle">{rate}</td>
+                  <td className="min-w-[200px] h-[50px] text-[#666666] text-center align-middle">{clicks}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-      </div>
+</div>
+
 
  <div className="rounded-[20px] px-6 mb-10">
   <h2 className="text-[20px] py-6 font-semibold text-black mb-6">Advertisements Management</h2>
@@ -258,7 +264,8 @@ const completed = data.filter(
     ].map((ad, i) => (
       <div
         key={i}
-        className="w-[261px] h-[405px] shrink-0 rounded-[20px] bg-[#FFF] px-[26px] py-[26px] flex flex-col justify-start gap-[4px] font-Inter"
+        className="w-[261px] h-[405px] shrink-0 rounded-[20px] bg-[#FFF] px-[26px] py-[26px] 
+                  flex flex-col justify-start gap-[4px] font-Inter"
       >
         {/* Title */}
         <div className="text-[14px] text-black">{ad.title}</div>
@@ -299,13 +306,13 @@ const completed = data.filter(
 
 
       {/* Visits/Click Data */}
-      <div className='py-[52px]'>
-      <div className="mt-10  text-[#000]  bg-[#F0F9FF]">  {/*order' */}
+  <div className='py-[32px] sm:py-[52px]'>
+     <div className="mt-10  text-[#000]  bg-[#F0F9FF]">  
   <h2 className="text-[20px] font-semibold text-black mb-6">Visits/Click Data</h2>
 
   {/* Filters */}
   <div className="inline-flex items-center gap-[43px]  mb-8">
-    <div className="flex flex-col  py-[22px]">
+    <div className="flex flex-col sm:py-[22px]">
       <label className="text-sm font-medium py-[22px] text-[#1C1B1F] mb-1">Select Time Period</label>
       <select className="w-[215px] h-[50px] shrink-0 rounded-[15px] border border-[#DFEAF2] bg-[#FFF] 
       text-sm text-black py-[12px]  px-[4px]">
@@ -313,7 +320,8 @@ const completed = data.filter(
       </select>
     </div>
     <div className="flex flex-col">
-      <label className="text-sm font-medium py-[22px]  text-[#1C1B1F] mb-1">Group By</label>
+      <label className="text-sm font-medium py-[22px] sm:py-[22px]
+       text-[#1C1B1F] mb-1">Group By</label>
       <div className="flex gap-[12px]">
         {['Day', 'Week', 'Month', 'Year'].map((item) => (
           <div
@@ -328,7 +336,8 @@ const completed = data.filter(
     </div>
   </div>
  <h2 className="text-xl font-semibold mb-4">Site Visits/Clicks</h2>
- <div className="bg-[#FFFF] px-[22px] py-[12px]  rounded-[25px] w-[929px] h-[625px]">
+ <div className="bg-[#FFFF] px-[22px] py-[12px]  rounded-[25px] w-[929px] h-[625px]
+                 sm:h-[420px] md:h-[520px]  w-full max-w-[929px] h-[320px]">
        
        <ResponsiveContainer width="100%" height="90%">
          <AreaChart data={visitClickData}>
@@ -385,14 +394,14 @@ const completed = data.filter(
 </div>
 
       {/* Conversions Data Chart */}
-<div className="mt-10  bg-[#F0F9FF] p-6">
+<div className="mt-10  bg-[#F0F9FF] p-4 sm:p-6">
   <h2 className="text-[20px] font-semibold text-black mb-6">Conversion Data</h2>
 
   {/* Filters */}
   <div className="flex flex-wrap gap-[23px] mb-8">
     <div className="flex flex-col gap-[10px] ">
       <label className="text-sm font-medium  gap-[10px]  text-[#1C1B1F] mb-1">Select Time Period</label>
-      <select className="w-[215px] h-[50px] gap-[10px]
+      <select className="w-full max-w-[215px] h-[50px]
        rounded-[15px] border border-[#DFEAF2] bg-[#FFF] text-sm text-black px-4">
         <option>19 January 2025</option>
       </select>
@@ -409,7 +418,8 @@ const completed = data.filter(
         {['Day', 'Week', 'Month', 'Year'].map((item) => (
           <div
             key={item}
-            className="w-[70px] h-[50px] rounded-[15px] border border-[#DFEAF2] bg-[#FFF] text-sm text-black flex items-center justify-center"
+            className="w-[70px] h-[50px] rounded-[15px] border border-[#DFEAF2] bg-[#FFF]
+             text-sm text-black flex items-center justify-center"
           >
             {item}
           </div>
@@ -420,8 +430,8 @@ const completed = data.filter(
    <h2 className="text-[20px] font-semibold text-[#1C1B1F] mb-[12px]">Conversions</h2>
   {/* Chart Title and Legend */}
   <div
-       className=" bg-[#FAFAFA] rounded-[16px] px-[24px] py-[24px] shrink-0"
-       style={{ width: '924.751px', height: '624.134px' }}
+       className="bg-[#FFFF] px-[22px] py-[12px]  rounded-[25px] w-[929px] h-[625px]
+                 sm:h-[420px] md:h-[520px]  w-full max-w-[929px] h-[320px]"
      >
       
  
@@ -471,7 +481,7 @@ const completed = data.filter(
                  </linearGradient>
                </defs>
  
-               <CartesianGrid stroke="#E9EEF5" strokeDasharray="3 3" />
+               <CartesianGrid stroke="#DFE5EE" strokeDasharray="3 3" />
                <XAxis dataKey="date" tick={{ fill: '#6B7280', fontSize: 12 }} />
                <YAxis tick={{ fill: '#6B7280', fontSize: 12 }} />
                <Tooltip />

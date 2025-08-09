@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OnBoard / FyndMe Dashboard
 
-## Getting Started
+A responsive dashboard built with **Next.js 13+ (App Router)**, **Tailwind CSS**, and **Recharts**.  
+It shows stats, user verification tables (Pending/Completed), promotions, performance summaries, ads cards, and charts for visits/clicks and conversions.
 
-First, run the development server:
+---
 
-```bash
+## 🔧 How to Install & Run (Required)
+- For backend
+
+cd server
+npm install
+node index
+API will be at: http://localhost:5000
+
+-Frontend
+
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+App will start at: http://localhost:3000
+you can see http://localhost:3000/performance-summary
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🗂 Data Source
+This project uses the provided data.csv file.
 
-## Learn More
+Location: /public/data.csv
 
-To learn more about Next.js, take a look at the following resources:
+The CSV is parsed in the frontend and mapped into a list of user records.
+Filtering is applied in memory to categorize pending and completed verification requests.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🧠 Development Approach & Key Decisions
+UI Framework: Used Next.js (App Router) for page routing and component-based structure.
 
-## Deploy on Vercel
+Styling: Tailwind CSS with consistent spacing utilities (px-[val], py-[val], gap-[val]) to match Figma design values.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Backend Integration: Connected backend to frontend using Axios for API calls.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Data Handling: Modified tables to dynamically render data from data.csv based on verification status.
+
+Statistics: Added static statistical cards for quick insights.
+
+Layout Adjustments: Applied px-[160px] for left-side spacing, adjusted gaps, and ensured each section is displayed in separate cards for better visual organization.
+
+
+📌 Assumptions
+Member Name, Username, ID Verification, Portfolio Verification, No. Of Portfolios
+
+“Not verified” means pending; “Verified” on both checks means completed.
+
+Routes /req-pending and /req-complete exist  on  http://localhost:3000/req-pending
+http://localhost:3000/req-complete
+
+Static datasets are currently used for charts; they can be integrated with real data if available.
+
